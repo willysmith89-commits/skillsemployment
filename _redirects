@@ -1,0 +1,11 @@
+# Old site routes -> new single-page landing
+/course-intro           /            301
+/course-intro/*         /            301
+/course-online-evening  /            301
+/course-online-evening/* /           301
+/checkout               /#enrol      301
+/checkout/*             /#enrol      301
+/onboarding             /#enrol      301
+/onboarding/*           /#enrol      301
+/thank-you              /thank-you.html  301
+/thank-you/             /thank-you.html  301
