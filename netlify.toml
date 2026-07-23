@@ -1,0 +1,37 @@
+# Netlify configuration for the Skills & Employment Australia backend
+
+[build]
+  functions = "netlify/functions"
+  publish   = "public"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Stripe requires the raw body for signature verification.
+# Netlify Functions v2 (default) handles this automatically via req.body
+# but we also need to prevent any framework middleware from parsing JSON first.
+[functions."stripe-webhook"]
+  # ensures the raw body is passed through untouched
+  included_files = []
+
+# CORS + JSON is handled inside the function itself for hubspot-deal.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://skillsemployment.com.au"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
+# Friendly aliases so the site posts to /api/*
+[[redirects]]
+  from = "/api/hubspot-deal"
+  to   = "/.netlify/functions/hubspot-deal"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/webhooks/stripe-ga4"
+  to   = "/.netlify/functions/stripe-webhook"
+  status = 200
+  force = true
