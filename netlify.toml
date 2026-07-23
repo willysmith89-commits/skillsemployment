@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Daily at 21:00 UTC = 7:00am Sydney (AEST) / 8:00am (AEDT summer)
+[functions."charge-weekly"]
+  schedule = "0 21 * * *"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
